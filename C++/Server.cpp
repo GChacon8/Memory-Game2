@@ -12,11 +12,6 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
-//int sockfd, newsockfd, portno;
-//socklen_t clilen;
-//char buffer[256];
-//struct sockaddr_in serv_addr, cli_addr;
-
 class Server{
 public:
     int sockfd, newsockfd;

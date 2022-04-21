@@ -10,33 +10,24 @@ public class Client {
         BufferedInputStream in;
         BufferedOutputStream out;
         byte[] byteArray;
+        Interfaz UI = new Interfaz();
+        UI.logicaUI();
         try{
             Socket sc = new Socket(HOST, PUERTO);
             in = new BufferedInputStream(sc.getInputStream());
             out = new BufferedOutputStream(sc.getOutputStream());
             byteArray = new byte[1024];
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Se crearon los puertos");
-
-            //String mensaje = in.readUTF();
-            //System.out.println(mensaje);
 
             int n = in.read(byteArray);
             System.out.println(n);
-            //out.writeUTF("Hola desde el cliente");
-            //String mensaje = "Hola!";
-            String mensaje = scanner.nextLine();
-            out.write(mensaje.getBytes());
+            String mensaje1 = new String(byteArray);
+            System.out.println(mensaje1);
+            String mensaje2 = "Hola!";
+            out.write(mensaje2.getBytes());
             //out.write(byteArray);
             out.flush();
-            //out.write(97);
-            for (byte b:mensaje.getBytes()){
-                if(b==0){
-                    break;
-                }
-                System.out.println((char)b+":"+b);
-            }
-            System.out.println(mensaje);
+            System.out.println(mensaje2);
             sc.close();
             System.out.println("Cliente desconectado");
         }

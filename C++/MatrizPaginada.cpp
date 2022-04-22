@@ -3,9 +3,10 @@
 //
 
 #include "MatrizPaginada.h"
+#include "Carta.h"
 
-/*class MatrizPaginada{
-public:
-    int matrizInts[8][8];
 
-};*/
+
+    //void generarCartas(){
+
+    //}

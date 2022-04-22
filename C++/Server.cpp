@@ -10,6 +10,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include "MatrizPaginada.h"
 
 class Server{
 public:
@@ -17,8 +18,10 @@ public:
     socklen_t clilen;
     char buffer[1024]{};
     struct sockaddr_in serv_addr, cli_addr;
+    MatrizPaginada matrizPaginada;
     Server(){
         sockfd = socket(AF_INET,SOCK_STREAM,0);
+        matrizPaginada.cargarMatrizInts();
 
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_addr.s_addr = INADDR_ANY;

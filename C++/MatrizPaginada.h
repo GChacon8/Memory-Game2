@@ -11,7 +11,7 @@
 class MatrizPaginada {
 private:
     int matrizInts[8][8];
-    char rutas[16];
+    const char *rutas[16] = {"/home/gabriel/Documents/Memory-Game2/Black.png","/home/gabriel/Documents/Memory-Game2/White.png","/home/gabriel/Documents/Memory-Game2/Gray.png","/home/gabriel/Documents/Memory-Game2/Red.png","/home/gabriel/Documents/Memory-Game2/Indigo.png","/home/gabriel/Documents/Memory-Game2/Turquoise.png","/home/gabriel/Documents/Memory-Game2/Green.png","/home/gabriel/Documents/Memory-Game2/Yellow.png","/home/gabriel/Documents/Memory-Game2/Purple.png","/home/gabriel/Documents/Memory-Game2/Orange.png","/home/gabriel/Documents/Memory-Game2/LightTurquoise.png","/home/gabriel/Documents/Memory-Game2/LightGray.png","/home/gabriel/Documents/Memory-Game2/Brown.png","/home/gabriel/Documents/Memory-Game2/Rose.png","/home/gabriel/Documents/Memory-Game2/DarkRed.png","/home/gabriel/Documents/Memory-Game2/LightYellow.png"};
     std::vector<Carta> vctCartas;
     /*
     char rutaImg1[128] = "/home/gabriel/Documents/Memory-Game2/Black.png";
@@ -40,14 +40,29 @@ public:
         }
     }
 
+    int getID(int i,int j){
+        return matrizInts[i][j];
+    }
+
     void cargarVector(){
         for(int i =0; i<4; i++){
             for(int j =0; j<16;j++){
-               Carta carta = new Carta((j+1)+(16*i), i+1);
+               Carta carta((j+1)+(16*i), i+1,rutas[j]);
+               vctCartas.push_back(carta);
             }
 
         }
     }
+
+    char* darImg(int id) {
+        for (int i = 0; i < 64; i++) {
+            if (vctCartas[i].getID() == id){
+                return vctCartas[i].getImg();
+            }
+
+        }
+    };
+
 };
 
 #endif //C___MATRIZPAGINADA_H

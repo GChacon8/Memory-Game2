@@ -16,12 +16,17 @@ class Server{
 public:
     int sockfd, newsockfd;
     socklen_t clilen;
-    char buffer[1024]{};
+    char buffer[1024];
     struct sockaddr_in serv_addr, cli_addr;
     MatrizPaginada matrizPaginada;
+    int puntaje1,puntaje2;
+    char byteX;
+    char byteY;
+    int cartaID;
     Server(){
         sockfd = socket(AF_INET,SOCK_STREAM,0);
         matrizPaginada.cargarMatrizInts();
+        matrizPaginada.cargarVector();
 
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -41,9 +46,25 @@ public:
     void Recibir(){
         read(newsockfd, buffer, 1023);
         std::cout <<"El cliente dice:"<< buffer << std::endl;
+        byteX = buffer[0];
+        byteY = buffer[1];
+        cartaID = matrizPaginada.getID(byteX,byteY);
         memset(buffer, 0, sizeof (buffer));
     }
     void Enviar(){
+        std::cout << "Escribe el mensaje a enviar" << std::endl;
+        //std::cin>>this->buffer;
+        write(newsockfd, buffer, 1023);
+        memset(buffer, 0, sizeof (buffer));
+        std::cout << "Mensaje Enviado desde el server:)" << std::endl;
+    }
+    void Enviar(char imgRuta[128]){
+        strcpy(buffer, imgRuta);
+        write(newsockfd, buffer, 1023);
+        memset(buffer, 0, sizeof (buffer));
+        std::cout << "Mensaje Enviado desde el server: " << buffer << std::endl;
+    }
+    void Enviar(char img[50], int puntaje){
         std::cout << "Escribe el mensaje a enviar" << std::endl;
         std::cin>>this->buffer;
         write(newsockfd, buffer, 1023);
@@ -59,10 +80,18 @@ public:
 
 int main(){
     Server *Servidor = new Server();
+    char rutaImg[128];
+    memset(rutaImg, 0, sizeof (rutaImg));
 
-    Servidor->Enviar();
-    Servidor->Recibir();
+
+    while(true) {
+        Servidor->Enviar(rutaImg);
+        Servidor->Recibir();
+        strcpy(rutaImg,Servidor->matrizPaginada.darImg(Servidor->cartaID));
+    }
+
     Servidor->cerrarSocket();
+
 }
 void error(char *msg){
     perror(msg);
